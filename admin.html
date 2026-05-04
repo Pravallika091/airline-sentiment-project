@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Admin Dashboard</title>
+<style>
+:root {
+  font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  color: #1f2937;
+  background: #f2f8ff;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding: 28px;
+  background: radial-gradient(circle at top right, rgba(59, 130, 246, 0.16), transparent 28%),
+              linear-gradient(180deg, #f8fbff 0%, #eef4fb 100%);
+}
+.page-header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+.page-header h1 {
+  margin: 0;
+  font-size: clamp(2rem, 2.6vw, 2.6rem);
+  color: #0f172a;
+}
+.page-header p {
+  margin: 0;
+  color: #475569;
+}
+.header-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.header-actions button {
+  min-width: 120px;
+}
+.sentiment-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+.filter-button {
+  padding: 12px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  background: white;
+  color: #0f172a;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+.filter-button:hover {
+  background: #eff6ff;
+  transform: translateY(-1px);
+}
+.filter-button.active {
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  color: white;
+  border-color: transparent;
+  box-shadow: 0 16px 28px rgba(59, 130, 246, 0.18);
+}
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(175px, 1fr));
+  gap: 18px;
+  margin-bottom: 26px;
+}
+.card {
+  background: white;
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 22px;
+  padding: 24px 22px;
+  box-shadow: 0 20px 42px rgba(15, 23, 42, 0.08);
+}
+.card strong {
+  display: block;
+  margin-bottom: 12px;
+  color: #475569;
+  font-size: 0.95rem;
+}
+.card span {
+  display: block;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: #0f172a;
+}
+.filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 16px;
+  align-items: end;
+  margin-bottom: 24px;
+}
+select {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid rgba(15, 23, 42, 0.12);
+  border-radius: 16px;
+  background: #ffffff;
+  color: #0f172a;
+  font-size: 0.98rem;
+}
+button {
+  padding: 14px 20px;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #0ea5e9);
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 0.98rem;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 16px 28px rgba(59, 130, 246, 0.18);
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 24px 60px rgba(15, 23, 42, 0.08);
+}
+thead {
+  background: #0f172a;
+  color: white;
+}
+th,
+td {
+  padding: 18px 16px;
+  text-align: left;
+}
+th {
+  font-size: 0.95rem;
+  font-weight: 700;
+}
+tbody tr {
+  border-bottom: 1px solid rgba(15, 23, 42, 0.06);
+}
+tbody tr:last-child {
+  border-bottom: none;
+}
+tbody td {
+  color: #334155;
+  font-size: 0.96rem;
+  vertical-align: top;
+}
+.status {
+  font-weight: 700;
+}
+.positive {
+  color: #047857;
+}
+.negative {
+  color: #b91c1c;
+}
+.neutral {
+  color: #c2410c;
+}
+@media (max-width: 760px) {
+  body {
+    padding: 18px;
+  }
+  .filters {
+    grid-template-columns: 1fr;
+  }
+  th,
+td {
+    padding: 14px 12px;
+  }
+}
+</style>
+</head>
+<body>
+<div class="page-header">
+  <div>
+    <h1>✈ Airline Review Analytics Dashboard</h1>
+    <p>View sentiment trends, filter reviews, and monitor passenger feedback in one place.</p>
+  </div>
+  <div class="header-actions">
+    <button type="button" onclick="window.location.href='index.html'">Home</button>
+    <button type="button" onclick="window.location.href='login.html'">Logout</button>
+  </div>
+</div>
+<div class="summary-cards">
+  <div class="card"><strong>Total Reviews</strong><span id="total">0</span></div>
+  <div class="card"><strong>Positive</strong><span id="positive">0</span></div>
+  <div class="card"><strong>Negative</strong><span id="negative">0</span></div>
+  <div class="card"><strong>Neutral</strong><span id="neutral">0</span></div>
+</div>
+<div class="filters">
+  <select id="airlineFilter" onchange="loadReviews()">
+    <option value="">All Airlines</option>
+    <option>Air India</option>
+    <option>IndiGo</option>
+    <option>SpiceJet</option>
+    <option>Vistara</option>
+    <option>Akasa Air</option>
+  </select>
+  <select id="categoryFilter" onchange="loadReviews()">
+    <option value="">All Categories</option>
+    <option>Seat Comfort</option>
+    <option>Food Quality</option>
+    <option>Cabin Crew Service</option>
+    <option>Flight Delay</option>
+    <option>Baggage Handling</option>
+    <option>Ticket Pricing</option>
+    <option>Check-in Experience</option>
+  </select>
+  <select id="sentimentFilter" onchange="setSentimentFilter(this.value)">
+    <option value="">All Sentiments</option>
+    <option>POSITIVE</option>
+    <option>NEGATIVE</option>
+    <option>NEUTRAL</option>
+  </select>
+  <button type="button" onclick="loadReviews()">Apply Filter</button>
+</div>
+<div class="sentiment-buttons">
+  <button class="filter-button active" data-sentiment="" type="button" onclick="setSentimentFilter('')">All Reviews</button>
+  <button class="filter-button" data-sentiment="POSITIVE" type="button" onclick="setSentimentFilter('POSITIVE')">Positive</button>
+  <button class="filter-button" data-sentiment="NEGATIVE" type="button" onclick="setSentimentFilter('NEGATIVE')">Negative</button>
+  <button class="filter-button" data-sentiment="NEUTRAL" type="button" onclick="setSentimentFilter('NEUTRAL')">Neutral</button>
+</div>
+<table>
+<thead>
+<tr>
+<th>Airline</th>
+<th>Category</th>
+<th>Original Review</th>
+<th>Translated Review</th>
+<th>Sentiment</th>
+<th>Timestamp</th>
+</tr>
+</thead>
+<tbody id="tableBody"></tbody>
+</table>
+<script>
+const API_URL =
+"https://2i9d4mmxwc.execute-api.ap-south-1.amazonaws.com/prod/get-reviews";
+async function loadReviews(){
+const airline = document.getElementById("airlineFilter").value.trim();
+const category = document.getElementById("categoryFilter").value.trim();
+const sentiment = document.getElementById("sentimentFilter").value.trim().toUpperCase();
+const response = await fetch(API_URL);
+const data = await response.json();
+let total = 0;
+let positive = 0;
+let negative = 0;
+let neutral = 0;
+const table = document.getElementById("tableBody");
+table.innerHTML="";
+data.forEach(review=>{
+  const reviewSentiment = review.Sentiment ? review.Sentiment.toString().trim().toUpperCase() : '';
+  if(
+    (airline && review.Airline !== airline) ||
+    (category && review.Category !== category) ||
+    (sentiment && reviewSentiment !== sentiment)
+  ) return;
+total++;
+if(review.Sentiment==="POSITIVE") positive++;
+if(review.Sentiment==="NEGATIVE") negative++;
+if(review.Sentiment==="NEUTRAL") neutral++;
+  const originalReview = review.Review || review.OriginalText || review.OriginalReview || review.Original || review.Text || 'N/A';
+  table.innerHTML += `
+<tr>
+<td>${review.Airline}</td>
+<td>${review.Category}</td>
+<td>${originalReview}</td>
+<td>${review.TranslatedText || 'N/A'}</td>
+<td class="status ${review.Sentiment.toLowerCase()}">
+${review.Sentiment}
+</td>
+<td>${review.Timestamp}</td>
+</tr>
+`;
+});
+document.getElementById("total").innerText = total;
+document.getElementById("positive").innerText = positive;
+document.getElementById("negative").innerText = negative;
+document.getElementById("neutral").innerText = neutral;
+if (total === 0) {
+  table.innerHTML = `
+    <tr>
+      <td colspan="6" style="text-align:center; color:#475569; padding: 28px 16px;">
+        No reviews found for the selected airline, category, or sentiment.
+      </td>
+    </tr>
+  `;
+}
+}
+function setSentimentFilter(value) {
+  const normalized = value ? value.toString().trim().toUpperCase() : '';
+  document.getElementById('sentimentFilter').value = normalized;
+  document.querySelectorAll('.filter-button').forEach(button => {
+    button.classList.toggle('active', button.dataset.sentiment === normalized);
+  });
+  loadReviews();
+}
+loadReviews();
+</script>
+</body>
+</html>

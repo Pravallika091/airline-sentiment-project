@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Register</title>
+
+<style>
+
+body{
+font-family:Inter;
+background:linear-gradient(135deg,#2563eb,#0ea5e9);
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+margin:0;
+}
+
+.card{
+background:white;
+padding:40px;
+border-radius:20px;
+width:380px;
+box-shadow:0 30px 70px rgba(0,0,0,0.2);
+}
+
+h2{
+margin-bottom:20px;
+text-align:center;
+}
+
+input{
+width:100%;
+padding:14px;
+margin-bottom:15px;
+border-radius:12px;
+border:1px solid #ccc;
+}
+
+button{
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#2563eb,#0ea5e9);
+color:white;
+font-weight:bold;
+cursor:pointer;
+}
+
+button:hover{
+transform:scale(1.02);
+}
+
+a{
+display:block;
+text-align:center;
+margin-top:15px;
+color:#2563eb;
+text-decoration:none;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>Create Account</h2>
+
+<input type="text" placeholder="Full Name">
+
+<input type="email" placeholder="Email">
+
+<input type="password" placeholder="Password">
+
+<input type="password" placeholder="Confirm Password">
+
+<button onclick="register()">Register</button>
+
+<a href="login.html">Already have account? Login</a>
+
+</div>
+
+<script>
+
+function register(){
+
+alert("Registration successful (Demo Mode)");
+
+window.location.href="login.html";
+
+}
+
+</script>
+
+</body>
+</html>

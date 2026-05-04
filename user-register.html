@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>User Registration</title>
+
+<style>
+
+body{
+margin:0;
+height:100vh;
+font-family:Inter, system-ui;
+
+/* AIRPLANE WINDOW CLOUDS BACKGROUND */
+
+background:
+linear-gradient(rgba(255,255,255,0.65),
+rgba(255,255,255,0.65)),
+url("https://images.unsplash.com/photo-1504608524841-42fe6f032b4b?q=80&w=2070&auto=format&fit=crop");
+
+background-size:cover;
+background-position:center;
+
+display:flex;
+justify-content:center;
+align-items:center;
+}
+
+.card{
+
+background:white;
+
+padding:45px;
+width:380px;
+
+border-radius:16px;
+
+box-shadow:0 20px 45px rgba(0,0,0,0.15);
+
+}
+
+h2{
+
+text-align:center;
+margin-bottom:25px;
+
+}
+
+input{
+
+width:100%;
+padding:14px;
+
+margin-bottom:15px;
+
+border:1px solid #ddd;
+border-radius:8px;
+
+}
+
+button{
+
+width:100%;
+padding:14px;
+
+background:#10b981;
+color:white;
+
+border:none;
+border-radius:8px;
+
+font-size:16px;
+cursor:pointer;
+
+}
+
+button:hover{
+
+background:#059669;
+
+}
+
+a{
+
+display:block;
+text-align:center;
+margin-top:15px;
+
+color:#2563eb;
+text-decoration:none;
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>User Registration</h2>
+
+<input placeholder="Full Name">
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+
+<button onclick="location.href='user-dashboard.html'">
+
+Register
+
+</button>
+
+<a href="user-login.html">Already have account? Login</a>
+
+<a href="index.html">⬅ Back Home</a>
+
+</div>
+
+</body>
+</html>
